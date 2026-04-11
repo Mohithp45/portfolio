@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mohith Pothuru — Software Engineer</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#ffffff;--bg2:#f7f7f5;--text:#1a1a1a;--text2:#6b6b6b;--text3:#9e9e9e;
+      --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.18);--radius:8px;--radiuslg:12px;--green:#3B6D11;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#111;--bg2:#1c1c1c;--text:#f0f0f0;--text2:#a0a0a0;--text3:#555;
+        --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.16);--green:#97C459;}
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;}
+
+    /* WELCOME */
+    #welcome{position:fixed;inset:0;z-index:100;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+    #welcome canvas{position:absolute;inset:0;width:100%;height:100%;}
+    .scanline{position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(transparent,rgba(59,109,17,0.18),transparent);animation:scan 4s linear infinite;pointer-events:none;z-index:1;}
+    @keyframes scan{0%{top:-2px}100%{top:102%}}
+    .w-info{position:relative;z-index:2;text-align:center;}
+    #w-greeting{font-family:'SF Mono',ui-monospace,monospace;font-size:11px;color:#3B6D11;letter-spacing:0.2em;margin-bottom:20px;min-height:16px;}
+    #w-name{font-size:42px;font-weight:500;color:#f0f0f0;letter-spacing:-0.5px;margin-bottom:8px;opacity:0;transition:opacity 0.9s ease;}
+    #w-role{font-family:'SF Mono',ui-monospace,monospace;font-size:11px;color:#444;letter-spacing:0.18em;margin-bottom:44px;opacity:0;transition:opacity 0.9s ease;}
+    #w-btn{font-size:13px;color:#e0e0e0;background:transparent;border:0.5px solid rgba(255,255,255,0.15);padding:11px 32px;border-radius:8px;cursor:pointer;opacity:0;transition:opacity 0.9s ease,background 0.2s,border-color 0.2s;letter-spacing:0.06em;font-family:inherit;}
+    #w-btn:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.3);}
+    #welcome.fade-out{opacity:0;transform:scale(0.98);transition:opacity 0.7s ease,transform 0.7s ease;}
+
+    /* PORTFOLIO */
+    #portfolio{opacity:0;transition:opacity 0.8s ease;}
+    #portfolio.visible{opacity:1;}
+    .wrap{max-width:700px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+    nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:4.5rem;padding-top:0.5rem;}
+    .nav-name{font-size:15px;font-weight:500;}
+    .nav-links{display:flex;gap:1.75rem;list-style:none;}
+    .nav-links a{font-size:14px;color:var(--text2);text-decoration:none;transition:color 0.15s;}
+    .nav-links a:hover{color:var(--text);}
+    .status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);margin-bottom:1.1rem;}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+    h1{font-size:38px;font-weight:500;line-height:1.15;margin-bottom:1.25rem;letter-spacing:-0.5px;}
+    .hero-bio{font-size:16px;color:var(--text2);max-width:540px;margin-bottom:1.75rem;line-height:1.75;}
+    .btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn{display:inline-block;padding:9px 20px;border-radius:var(--radius);border:0.5px solid var(--border2);font-size:14px;cursor:pointer;background:transparent;color:var(--text);text-decoration:none;font-family:inherit;transition:background 0.15s;}
+    .btn:hover{background:var(--bg2);}
+    .btn-p{background:var(--text);color:var(--bg);border-color:var(--text);}
+    .btn-p:hover{opacity:0.85;background:var(--text);}
+    .section{padding:3rem 0;border-top:0.5px solid var(--border);}
+    .label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.5rem;}
+    .tag{display:inline-block;font-size:12px;padding:3px 10px;border-radius:99px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text2);margin:3px 2px;}
+    .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radiuslg);padding:1.25rem;}
+    .card+.card{margin-top:1rem;}
+    .card-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+    .card-title{font-size:15px;font-weight:500;margin-bottom:2px;}
+    .card-sub{font-size:13px;color:var(--text3);}
+    .card-yr{font-size:13px;color:var(--text3);white-space:nowrap;padding-top:2px;}
+    .card-body{border-top:0.5px solid var(--border);padding-top:12px;display:flex;flex-direction:column;gap:10px;}
+    .card-body p{font-size:14px;color:var(--text2);line-height:1.65;}
+    .card-tags{margin-top:12px;}
+    .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;}
+    .focus{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radiuslg);padding:1.1rem 1.25rem;}
+    .focus-title{font-size:14px;font-weight:500;margin-bottom:6px;}
+    .focus-body{font-size:13px;color:var(--text2);line-height:1.6;}
+    .about-text{font-size:15px;color:var(--text2);line-height:1.85;max-width:560px;}
+    .contact-sub{font-size:15px;color:var(--text2);margin-bottom:1.25rem;}
+    footer{margin-top:4rem;padding-top:2rem;border-top:0.5px solid var(--border);font-size:13px;color:var(--text3);}
+
+    /* PROJECT CARDS */
+    .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+    .proj-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radiuslg);overflow:hidden;cursor:pointer;transition:border-color 0.2s;}
+    .proj-card:hover{border-color:var(--border2);}
+    .proj-visual{height:140px;position:relative;overflow:hidden;background:#0a0a0a;}
+    .proj-info{padding:1rem 1.1rem 1.1rem;}
+    .proj-name{font-size:14px;font-weight:500;margin-bottom:3px;}
+    .proj-year{font-size:12px;color:var(--text3);margin-bottom:10px;}
+    .proj-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+    .proj-tag{font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text2);}
+    .proj-desc{font-size:13px;color:var(--text2);line-height:1.55;}
+    .proj-desc ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .proj-desc li::before{content:"–  ";color:var(--text3);}
+
+    /* MODAL */
+    #modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.55);align-items:center;justify-content:center;padding:1.5rem;}
+    #modal-overlay.open{display:flex;}
+    #modal-box{background:var(--bg);border:0.5px solid var(--border2);border-radius:16px;max-width:560px;width:100%;overflow:hidden;animation:mopen 0.25s ease;}
+    @keyframes mopen{from{opacity:0;transform:translateY(16px) scale(0.97)}to{opacity:1;transform:none}}
+    #modal-anim{height:200px;background:#0a0a0a;position:relative;overflow:hidden;}
+    #modal-body{padding:1.5rem;}
+    .modal-title{font-size:18px;font-weight:500;margin-bottom:4px;}
+    .modal-year{font-size:13px;color:var(--text3);margin-bottom:12px;}
+    .modal-tags{margin-bottom:14px;}
+    .modal-bullets{display:flex;flex-direction:column;gap:8px;}
+    .modal-bullet{font-size:14px;color:var(--text2);line-height:1.6;padding-left:14px;position:relative;}
+    .modal-bullet::before{content:"–";position:absolute;left:0;color:var(--text3);}
+    .modal-close{margin-top:1.25rem;display:inline-block;font-size:13px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;}
+    .modal-close:hover{color:var(--text);}
+
+    @media(max-width:500px){h1{font-size:28px;}#w-name{font-size:30px;}nav{flex-direction:column;align-items:flex-start;gap:1rem;}}
+  </style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="welcome">
+  <canvas id="wc"></canvas>
+  <div class="scanline"></div>
+  <div class="w-info">
+    <div id="w-greeting"></div>
+    <div id="w-name">Mohith Pothuru</div>
+    <div id="w-role">SOFTWARE ENGINEER</div>
+    <button id="w-btn">enter portfolio &rarr;</button>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="portfolio">
+<div class="wrap">
+
+  <nav>
+    <span class="nav-name">Mohith Pothuru</span>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <div class="status"><span class="dot"></span>Open to new opportunities</div>
+    <h1>Software engineer who<br>builds things to scale.</h1>
+    <p class="hero-bio">I enjoy untangling messy systems and leaving them better than I found them — data pipelines, alert management, workflow orchestration, and integrations that actually solve problems.</p>
+    <div class="btn-row">
+      <a class="btn btn-p" href="mailto:mohithpothuru@email.com">Get in touch</a>
+      <a class="btn" href="https://linkedin.com/in/mohithpothuru" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://github.com/mohithpothuru" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="label">Skills</div>
+    <div>
+      <span class="tag">Python</span><span class="tag">Data Processing</span><span class="tag">REST APIs</span>
+      <span class="tag">RabbitMQ</span><span class="tag">Camunda</span><span class="tag">Workflow Orchestration</span>
+      <span class="tag">JSON / Excel</span><span class="tag">Linux</span><span class="tag">Networking</span>
+      <span class="tag">System Design</span><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Git</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="label">Projects</div>
+    <div class="proj-grid">
+
+      <div class="proj-card" onclick="openModal('opc')">
+        <div class="proj-visual" id="vis-opc"></div>
+        <div class="proj-info">
+          <div class="proj-name">Industrial Equipment Monitor</div>
+          <div class="proj-year">2024</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">FastAPI</span><span class="proj-tag">OPC DA</span>
+          </div>
+          <div class="proj-desc"><ul>
+            <li>Real-time telemetry from multiple plant sites</li>
+            <li>Sub-second REST dashboard refresh</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="proj-card" onclick="openModal('yt')">
+        <div class="proj-visual" id="vis-yt"></div>
+        <div class="proj-info">
+          <div class="proj-name">YouTube Data Analysis</div>
+          <div class="proj-year">2024</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">NLP</span><span class="proj-tag">Matplotlib</span>
+          </div>
+          <div class="proj-desc"><ul>
+            <li>500K+ data points across 200 channels</li>
+            <li>90% reduction in manual reporting</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="proj-card" onclick="openModal('k8s')">
+        <div class="proj-visual" id="vis-k8s"></div>
+        <div class="proj-info">
+          <div class="proj-name">Containerised Deployment</div>
+          <div class="proj-year">2025</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Docker</span><span class="proj-tag">Kubernetes</span><span class="proj-tag">Node.js</span>
+          </div>
+          <div class="proj-desc"><ul>
+            <li>Setup time 45 min → 8 min (82% faster)</li>
+            <li>99.9% availability, zero-downtime deploys</li>
+          </ul></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="label">Experience</div>
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Software Engineer — Algofusion</div>
+          <div class="card-sub">1.8 years · Hyderabad, India</div>
+        </div>
+        <span class="card-yr">2023 – Present</span>
+      </div>
+      <div class="card-body">
+        <p>Built and maintained a large-scale industrial monitoring and alert management system for a major energy sector client — handling real-time data processing, alert lifecycle management, and cross-component data consistency.</p>
+        <p>Used Camunda for workflow orchestration and RabbitMQ for async messaging. Debugged complex synchronization issues and significantly improved overall reliability of the alerting system.</p>
+        <p>Currently researching advanced visualization through 3D SCADA systems — blending real-time data with spatial interfaces.</p>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Python</span><span class="tag">RabbitMQ</span><span class="tag">Camunda</span>
+        <span class="tag">Real-time systems</span><span class="tag">3D SCADA</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="label">Focus areas</div>
+    <div class="grid3">
+      <div class="focus"><div class="focus-title">Data pipelines</div><div class="focus-body">Processing structured data from JSON and Excel sources, generating reports, and automating repetitive workflows end to end.</div></div>
+      <div class="focus"><div class="focus-title">System integrations</div><div class="focus-body">Connecting disparate systems cleanly through APIs and message queues so they stay in sync and scale reliably under load.</div></div>
+      <div class="focus"><div class="focus-title">Alerting & observability</div><div class="focus-body">Managing alert lifecycles, ensuring data consistency, and improving reliability across distributed, event-driven components.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="label">About</div>
+    <p class="about-text">I'm a software engineer who genuinely enjoys building things that are efficient and built to scale. There's something satisfying about untangling a messy system and leaving it better than you found it. Beyond day-to-day work, I'm continuously strengthening my fundamentals — networking, Linux, system design — because strong foundations make better engineers in the long run. Always open to learning, collaborating, or a good conversation about tech.</p>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="label">Contact</div>
+    <p class="contact-sub">Looking to grow into larger engineering challenges. Let's connect.</p>
+    <div class="btn-row">
+      <a class="btn btn-p" href="mailto:mohithpothuru@email.com">mohithpothuru@email.com</a>
+      <a class="btn" href="https://linkedin.com/in/mohithpothuru" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://github.com/mohithpothuru" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </section>
+
+  <footer>Built by Mohith Pothuru &middot; 2025</footer>
+</div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal-box">
+    <div id="modal-anim"></div>
+    <div id="modal-body">
+      <div class="modal-title" id="m-title"></div>
+      <div class="modal-year" id="m-year"></div>
+      <div class="modal-tags" id="m-tags"></div>
+      <div class="modal-bullets" id="m-bullets"></div>
+      <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">close &times;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── WELCOME 3D ── */
+(function(){
+  const wel=document.getElementById('welcome');
+  const port=document.getElementById('portfolio');
+  const cv=document.getElementById('wc');
+  const cx=cv.getContext('2d');
+  function rsz(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+  rsz(); window.addEventListener('resize',rsz);
+  const S=95;
+  const cv3=[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]].map(v=>v.map(x=>x*S));
+  const RING=30,RR=160;
+  const rv=Array.from({length:RING},(_,i)=>{const a=(i/RING)*Math.PI*2;return[Math.cos(a)*RR,Math.sin(a)*RR,0];});
+  const av=[...cv3,...rv];
+  const ce=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  const re=Array.from({length:RING},(_,i)=>[8+i,8+(i+1)%RING]);
+  const ae=[...ce,...re];
+  const pts=Array.from({length:60},()=>({x:(Math.random()-.5)*1600,y:(Math.random()-.5)*1000,z:(Math.random()-.5)*600,s:Math.random()*1.3+.3}));
+  let tt=0,alive=true;
+  const rX=(v,a)=>[v[0],v[1]*Math.cos(a)-v[2]*Math.sin(a),v[1]*Math.sin(a)+v[2]*Math.cos(a)];
+  const rY=(v,a)=>[v[0]*Math.cos(a)+v[2]*Math.sin(a),v[1],-v[0]*Math.sin(a)+v[2]*Math.cos(a)];
+  const rZ=(v,a)=>[v[0]*Math.cos(a)-v[1]*Math.sin(a),v[0]*Math.sin(a)+v[1]*Math.cos(a),v[2]];
+  const pr=v=>{const f=500,w=cv.width/2,h=cv.height/2,d=f+v[2]*.9;return[(v[0]/d)*f+w,(v[1]/d)*f+h,d];};
+  function wdraw(){
+    if(!alive)return;
+    tt+=.007;const rx=Math.sin(tt*.28)*.38+.32,ry=tt*.65,rz=Math.sin(tt*.18)*.08;
+    cx.clearRect(0,0,cv.width,cv.height);
+    const tp=av.map(v=>{let p=rX(v,rx);p=rY(p,ry);p=rZ(p,rz);return pr(p);});
+    for(const[a,b]of ae){const ic=a<8&&b<8,dep=(tp[a][2]+tp[b][2])/2,al=Math.min(.6,1400/dep)*(ic?.75:.35);cx.beginPath();cx.moveTo(tp[a][0],tp[a][1]);cx.lineTo(tp[b][0],tp[b][1]);cx.strokeStyle=ic?`rgba(59,109,17,${al})`:`rgba(90,90,100,${al})`;cx.lineWidth=ic?.9:.4;cx.stroke();}
+    for(let i=0;i<8;i++){const[px,py,pz]=tp[i],a=Math.min(.95,1400/pz);cx.beginPath();cx.arc(px,py,2.2,0,Math.PI*2);cx.fillStyle=`rgba(100,200,40,${a})`;cx.fill();}
+    for(const p of pts){p.x+=.15;if(p.x>800)p.x=-800;let pv=rX([p.x,p.y,p.z],rx);pv=rY(pv,ry);pv=rZ(pv,rz);const[sx,sy,sz]=pr(pv);if(sx<0||sx>cv.width||sy<0||sy>cv.height)continue;const a=Math.min(.45,900/sz)*.7;cx.beginPath();cx.arc(sx,sy,p.s,0,Math.PI*2);cx.fillStyle=`rgba(140,140,155,${a})`;cx.fill();}
+    requestAnimationFrame(wdraw);
+  }
+  wdraw();
+  const ge=document.getElementById('w-greeting'),ne=document.getElementById('w-name'),re2=document.getElementById('w-role'),be=document.getElementById('w-btn');
+  const msg='> initializing... system ready';let gi=0;
+  function tg(){if(gi<=msg.length){ge.textContent=msg.slice(0,gi)+(gi<msg.length?'_':'');gi++;setTimeout(tg,38);}else{setTimeout(()=>ne.style.opacity='1',300);setTimeout(()=>re2.style.opacity='1',800);setTimeout(()=>be.style.opacity='1',1200);}}
+  setTimeout(tg,700);
+  be.addEventListener('click',()=>{wel.style.transition='opacity .7s ease,transform .7s ease';wel.style.opacity='0';wel.style.transform='scale(0.98)';setTimeout(()=>{wel.style.display='none';alive=false;port.classList.add('visible');},700);});
+})();
+
+/* ── PROJECT CANVAS ANIMATIONS ── */
+function initAnims(){
+
+  /* 1 — OPC DA: pulsing sine wave telemetry */
+  (function(){
+    const el=document.getElementById('vis-opc');
+    const cv=document.createElement('canvas');cv.style.cssText='width:100%;height:100%;display:block;';el.appendChild(cv);
+    function sz(){cv.width=el.offsetWidth;cv.height=el.offsetHeight;}sz();
+    const ctx=cv.getContext('2d');let t=0;
+    const tags=['TAG_TEMP_01','TAG_PRESS_04','TAG_FLOW_07','TAG_VOLT_02'];
+    const phases=[0,1.2,2.4,0.7];
+    const colors=['rgba(59,109,17,','rgba(30,90,150,','rgba(100,60,160,','rgba(160,90,20,'];
+    function draw(){
+      const W=cv.width,H=cv.height;
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      const laneH=H/tags.length;
+      tags.forEach((tag,i)=>{
+        const y0=i*laneH+laneH/2;
+        ctx.beginPath();
+        for(let x=0;x<=W;x+=2){
+          const prog=x/W;
+          const noise=Math.sin(prog*11+t*2+phases[i])*0.15;
+          const wave=Math.sin(prog*6+t*1.5+phases[i])*0.38+noise;
+          const py=y0+wave*(laneH*0.38);
+          x===0?ctx.moveTo(x,py):ctx.lineTo(x,py);
+        }
+        ctx.strokeStyle=colors[i]+'0.75)';ctx.lineWidth=1.2;ctx.stroke();
+        const val=(42+i*18+Math.sin(t+phases[i])*8).toFixed(1);
+        ctx.fillStyle=colors[i]+'0.5)';ctx.font='9px ui-monospace,monospace';
+        ctx.fillText(tag+' '+val,8,i*laneH+14);
+      });
+      ctx.fillStyle='rgba(59,109,17,0.06)';
+      ctx.fillRect(W-52,0,52,H);
+      ctx.fillStyle='rgba(59,109,17,0.5)';ctx.font='8px ui-monospace,monospace';
+      ctx.fillText('LIVE',W-36,12);
+      const dot=0.5+0.5*Math.sin(t*4);
+      ctx.beginPath();ctx.arc(W-10,8,3,0,Math.PI*2);
+      ctx.fillStyle=`rgba(59,109,17,${dot})`;ctx.fill();
+      t+=0.025;requestAnimationFrame(draw);
+    }
+    draw();
+    new ResizeObserver(sz).observe(el);
+  })();
+
+  /* 2 — YouTube: animated bar chart */
+  (function(){
+    const el=document.getElementById('vis-yt');
+    const cv=document.createElement('canvas');cv.style.cssText='width:100%;height:100%;display:block;';el.appendChild(cv);
+    function sz(){cv.width=el.offsetWidth;cv.height=el.offsetHeight;}sz();
+    const ctx=cv.getContext('2d');
+    const bars=[
+      {label:'views',val:0.85,color:'rgba(200,40,40,'},
+      {label:'likes',val:0.62,color:'rgba(200,40,40,'},
+      {label:'comments',val:0.44,color:'rgba(200,40,40,'},
+      {label:'shares',val:0.31,color:'rgba(200,40,40,'},
+      {label:'subs',val:0.78,color:'rgba(200,40,40,'},
+    ];
+    let t=0,anim=[];
+    bars.forEach((_,i)=>anim.push(0));
+    function draw(){
+      const W=cv.width,H=cv.height;
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      const pad=14,bw=Math.floor((W-pad*2-4*(bars.length-1))/bars.length);
+      bars.forEach((b,i)=>{
+        anim[i]=Math.min(b.val,anim[i]+0.018);
+        const bh=Math.floor((H-40)*anim[i]);
+        const x=pad+i*(bw+4);
+        const y=H-20-bh;
+        const pulse=0.7+0.3*Math.sin(t*2+i*1.1);
+        ctx.fillStyle=b.color+(0.15)+')';
+        ctx.fillRect(x,H-20-(H-40),bw,H-40);
+        ctx.fillStyle=b.color+pulse+')';
+        ctx.fillRect(x,y,bw,bh);
+        ctx.fillStyle='rgba(220,220,220,0.4)';ctx.font='8px ui-monospace,monospace';
+        ctx.fillText(b.label,x,H-6);
+        if(anim[i]>0.05){
+          ctx.fillStyle='rgba(220,220,220,0.6)';
+          ctx.fillText(Math.round(anim[i]*100)+'%',x,y-4);
+        }
+      });
+      ctx.fillStyle='rgba(200,40,40,0.12)';ctx.fillRect(0,0,W,18);
+      ctx.fillStyle='rgba(200,40,40,0.7)';ctx.font='bold 8px ui-monospace,monospace';
+      ctx.fillText('YouTube Analytics  500K+ datapoints',6,12);
+      t+=0.03;requestAnimationFrame(draw);
+    }
+    draw();
+    new ResizeObserver(sz).observe(el);
+  })();
+
+  /* 3 — K8s: orbiting pods around a hub */
+  (function(){
+    const el=document.getElementById('vis-k8s');
+    const cv=document.createElement('canvas');cv.style.cssText='width:100%;height:100%;display:block;';el.appendChild(cv);
+    function sz(){cv.width=el.offsetWidth;cv.height=el.offsetHeight;}sz();
+    const ctx=cv.getContext('2d');
+    let t=0;
+    const pods=[
+      {label:'pod-1',angle:0,r:52,speed:0.6,color:'rgba(30,120,200,'},
+      {label:'pod-2',angle:2.09,r:52,speed:0.6,color:'rgba(30,120,200,'},
+      {label:'pod-3',angle:4.19,r:52,speed:0.6,color:'rgba(30,120,200,'},
+      {label:'svc',angle:0,r:80,speed:0.3,color:'rgba(59,109,17,'},
+      {label:'ingress',angle:Math.PI,r:80,speed:0.3,color:'rgba(59,109,17,'},
+    ];
+    function draw(){
+      const W=cv.width,H=cv.height,cx=W/2,cy=H/2;
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      [52,80].forEach(r=>{
+        ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+        ctx.strokeStyle='rgba(60,60,80,0.4)';ctx.lineWidth=0.5;ctx.stroke();
+      });
+      ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);
+      ctx.fillStyle='rgba(30,120,200,0.15)';ctx.fill();
+      ctx.strokeStyle='rgba(30,120,200,0.5)';ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle='rgba(200,220,255,0.9)';ctx.font='bold 7px ui-monospace,monospace';
+      ctx.textAlign='center';ctx.fillText('K8s',cx,cy+3);
+      pods.forEach(p=>{
+        const a=p.angle+t*p.speed;
+        const px=cx+Math.cos(a)*p.r,py=cy+Math.sin(a)*p.r;
+        ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);
+        ctx.strokeStyle=p.color+'0.15)';ctx.lineWidth=0.5;ctx.stroke();
+        ctx.beginPath();ctx.arc(px,py,10,0,Math.PI*2);
+        ctx.fillStyle=p.color+'0.18)';ctx.fill();
+        ctx.strokeStyle=p.color+'0.7)';ctx.lineWidth=0.8;ctx.stroke();
+        ctx.fillStyle='rgba(220,235,255,0.85)';ctx.font='6px ui-monospace,monospace';
+        ctx.fillText(p.label,px,py+2);
+      });
+      ctx.textAlign='left';
+      const pulse=0.5+0.5*Math.sin(t*3);
+      ctx.fillStyle=`rgba(59,109,17,${pulse})`;ctx.font='8px ui-monospace,monospace';
+      ctx.fillText('3 replicas  99.9% uptime',8,H-8);
+      t+=0.018;requestAnimationFrame(draw);
+    }
+    draw();
+    new ResizeObserver(sz).observe(el);
+  })();
+}
+
+window.addEventListener('load',()=>setTimeout(initAnims,100));
+
+/* ── MODAL ── */
+const projects={
+  opc:{
+    title:'Real-Time Industrial Equipment Monitoring Dashboard',
+    year:'2024',
+    tags:['Python','FastAPI','OPC DA','REST API'],
+    bullets:[
+      'Streamed live OPC DA telemetry from multiple terminal plant sites into a centralised Python backend, replacing siloed manual checks.',
+      'FastAPI backend polls OPC DA and exposes REST endpoints to a web dashboard with sub-second refresh latency.',
+      'End-to-end pipeline (tag reads → normalisation → JSON) lets teams monitor 100% of plant equipment from one interface.'
+    ],
+    anim:'opc'
+  },
+  yt:{
+    title:'YouTube Data Analysis',
+    year:'2024',
+    tags:['Python','YouTube Data API','NLP','Matplotlib'],
+    bullets:[
+      'Processed 500,000+ data points across 200 channels; cut manual reporting by 90%.',
+      'NLP keyword analysis on 50K tags surfaced 3 high-engagement content patterns.',
+      'Visualisations reduced stakeholder review time from 2 hrs → 20 min per cycle.'
+    ],
+    anim:'yt'
+  },
+  k8s:{
+    title:'Containerised Application Deployment',
+    year:'2025',
+    tags:['Docker','Kubernetes (Minikube)','Node.js'],
+    bullets:[
+      'Dockerised Node.js app; cut environment setup from 45 min → 8 min (82% faster onboarding).',
+      'Kubernetes 3-replica ReplicaSet with rolling updates — zero-downtime deployments, 99.9% availability.'
+    ],
+    anim:'k8s'
+  }
+};
+
+let modalAnim=null;
+function openModal(key){
+  const p=projects[key];
+  document.getElementById('m-title').textContent=p.title;
+  document.getElementById('m-year').textContent=p.year;
+  document.getElementById('m-tags').innerHTML=p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('m-bullets').innerHTML=p.bullets.map(b=>`<div class="modal-bullet">${b}</div>`).join('');
+  const animEl=document.getElementById('modal-anim');
+  animEl.innerHTML='';
+  if(modalAnim){cancelAnimationFrame(modalAnim);modalAnim=null;}
+  const cv=document.createElement('canvas');cv.style.cssText='width:100%;height:100%;display:block;';
+  animEl.appendChild(cv);
+  function sz(){cv.width=animEl.offsetWidth;cv.height=animEl.offsetHeight;}sz();
+  const ctx=cv.getContext('2d');
+  let t=0;
+  if(p.anim==='opc'){
+    const tags2=['TAG_TEMP_01','TAG_PRESS_04','TAG_FLOW_07','TAG_VOLT_02','TAG_RPM_09'];
+    const ph=[0,1.2,2.4,0.7,1.8];
+    const cols=['rgba(59,109,17,','rgba(30,90,150,','rgba(100,60,160,','rgba(160,90,20,','rgba(20,140,120,'];
+    function df(){
+      const W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      const lH=H/tags2.length;
+      tags2.forEach((tag,i)=>{
+        const y0=i*lH+lH/2;
+        ctx.beginPath();
+        for(let x=0;x<=W;x+=2){
+          const pg=x/W,ns=Math.sin(pg*11+t*2+ph[i])*.12,wv=Math.sin(pg*6+t*1.5+ph[i])*.4+ns;
+          const py=y0+wv*(lH*.38);x===0?ctx.moveTo(x,py):ctx.lineTo(x,py);
+        }
+        ctx.strokeStyle=cols[i]+'0.8)';ctx.lineWidth=1.3;ctx.stroke();
+        const val=(42+i*18+Math.sin(t+ph[i])*8).toFixed(1);
+        ctx.fillStyle=cols[i]+'0.55)';ctx.font='10px ui-monospace,monospace';ctx.fillText(tag+'  '+val,10,i*lH+16);
+      });
+      const dot=0.4+0.6*Math.sin(t*4);
+      ctx.beginPath();ctx.arc(W-12,12,4,0,Math.PI*2);ctx.fillStyle=`rgba(59,109,17,${dot})`;ctx.fill();
+      ctx.fillStyle='rgba(59,109,17,0.55)';ctx.font='9px ui-monospace,monospace';ctx.fillText('LIVE',W-44,16);
+      t+=.025;modalAnim=requestAnimationFrame(df);
+    }df();
+  }else if(p.anim==='yt'){
+    const bars2=[{l:'views',v:.88},{l:'likes',v:.65},{l:'cmts',v:.47},{l:'shares',v:.33},{l:'subs',v:.81},{l:'watch',v:.72}];
+    let an2=bars2.map(()=>0);
+    function df(){
+      const W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      const pad=16,bw=Math.floor((W-pad*2-5*(bars2.length-1))/bars2.length);
+      bars2.forEach((b,i)=>{
+        an2[i]=Math.min(b.v,an2[i]+.016);
+        const bh=Math.floor((H-50)*an2[i]),x=pad+i*(bw+5),y=H-28-bh;
+        const pulse=0.65+0.35*Math.sin(t*2+i*1.1);
+        ctx.fillStyle='rgba(200,40,40,0.1)';ctx.fillRect(x,H-28-(H-50),bw,H-50);
+        ctx.fillStyle=`rgba(200,40,40,${pulse})`;ctx.fillRect(x,y,bw,bh);
+        ctx.fillStyle='rgba(220,220,220,0.45)';ctx.font='9px ui-monospace,monospace';ctx.textAlign='center';
+        ctx.fillText(b.l,x+bw/2,H-12);
+        if(an2[i]>.06){ctx.fillStyle='rgba(255,220,220,0.7)';ctx.fillText(Math.round(an2[i]*100)+'%',x+bw/2,y-5);}
+      });
+      ctx.textAlign='left';
+      ctx.fillStyle='rgba(200,40,40,0.15)';ctx.fillRect(0,0,W,22);
+      ctx.fillStyle='rgba(255,100,100,0.8)';ctx.font='bold 9px ui-monospace,monospace';
+      ctx.fillText('YouTube Analytics  ·  500K+ data points  ·  200 channels',8,15);
+      t+=.025;modalAnim=requestAnimationFrame(df);
+    }df();
+  }else{
+    const pods2=[
+      {l:'pod-1',a:0,r:65,sp:.5,c:'rgba(30,120,200,'},
+      {l:'pod-2',a:2.09,r:65,sp:.5,c:'rgba(30,120,200,'},
+      {l:'pod-3',a:4.19,r:65,sp:.5,c:'rgba(30,120,200,'},
+      {l:'svc',a:0,r:95,sp:.25,c:'rgba(59,109,17,'},
+      {l:'ingress',a:Math.PI,r:95,sp:.25,c:'rgba(59,109,17,'},
+      {l:'configmap',a:Math.PI/2,r:95,sp:.25,c:'rgba(140,80,20,'},
+    ];
+    function df(){
+      const W=cv.width,H=cv.height,CX=W/2,CY=H/2;
+      ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,W,H);
+      [65,95].forEach(r=>{ctx.beginPath();ctx.arc(CX,CY,r,0,Math.PI*2);ctx.strokeStyle='rgba(60,60,90,0.35)';ctx.lineWidth=0.5;ctx.stroke();});
+      ctx.beginPath();ctx.arc(CX,CY,22,0,Math.PI*2);
+      const pulse=0.1+0.08*Math.sin(t*2);
+      ctx.fillStyle=`rgba(30,120,200,${pulse})`;ctx.fill();
+      ctx.strokeStyle='rgba(30,120,200,0.55)';ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle='rgba(200,220,255,0.9)';ctx.font='bold 8px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText('K8s',CX,CY+3);
+      pods2.forEach(p=>{
+        const a=p.a+t*p.sp,px=CX+Math.cos(a)*p.r,py=CY+Math.sin(a)*p.r;
+        ctx.beginPath();ctx.moveTo(CX,CY);ctx.lineTo(px,py);ctx.strokeStyle=p.c+'0.12)';ctx.lineWidth=0.5;ctx.stroke();
+        ctx.beginPath();ctx.arc(px,py,12,0,Math.PI*2);ctx.fillStyle=p.c+'0.15)';ctx.fill();ctx.strokeStyle=p.c+'0.7)';ctx.lineWidth=0.9;ctx.stroke();
+        ctx.fillStyle='rgba(220,235,255,0.85)';ctx.font='7px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText(p.l,px,py+2.5);
+      });
+      ctx.textAlign='left';
+      ctx.fillStyle='rgba(59,109,17,0.6)';ctx.font='9px ui-monospace,monospace';
+      ctx.fillText('3 replicas  ·  rolling updates  ·  99.9% uptime',8,H-8);
+      t+=.016;modalAnim=requestAnimationFrame(df);
+    }df();
+  }
+  new ResizeObserver(sz).observe(animEl);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('modal-overlay')){
+    document.getElementById('modal-overlay').classList.remove('open');
+    if(modalAnim){cancelAnimationFrame(modalAnim);modalAnim=null;}
+  }
+}
+</script>
+</body>
+</html>
