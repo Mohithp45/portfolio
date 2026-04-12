@@ -322,7 +322,7 @@
   }
   wdraw();
   const ge=document.getElementById('w-greeting'),ne=document.getElementById('w-name'),re2=document.getElementById('w-role'),be=document.getElementById('w-btn');
-  const msg='> initializing... system ready in 5 se';let gi=0;
+  const msg='> initializing... system ready';let gi=0;
   function tg(){if(gi<=msg.length){ge.textContent=msg.slice(0,gi)+(gi<msg.length?'_':'');gi++;setTimeout(tg,38);}else{setTimeout(()=>ne.style.opacity='1',300);setTimeout(()=>re2.style.opacity='1',800);setTimeout(()=>be.style.opacity='1',1200);}}
   setTimeout(tg,700);
   be.addEventListener('click',()=>{wel.style.transition='opacity .7s ease,transform .7s ease';wel.style.opacity='0';wel.style.transform='scale(0.98)';setTimeout(()=>{wel.style.display='none';alive=false;port.classList.add('visible');},700);});
