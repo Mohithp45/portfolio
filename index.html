@@ -1,3 +1,4 @@
+<!-- test -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -197,6 +198,25 @@
             <li>Setup time 45 min → 8 min (82% faster)</li>
             <li>99.9% availability, zero-downtime deploys</li>
           </ul></div>
+        </div>
+      </div>
+
+      <div class="proj-card" onclick="openModal('monitor')">
+        <div class="proj-visual" id="vis-monitor"></div>
+        <div class="proj-info">
+          <div class="proj-name">Linux System Monitoring Tool</div>
+          <div class="proj-year">2026</div>
+          <div class="proj-tags">
+            <span class="proj-tag">Bash</span>
+            <span class="proj-tag">Linux</span>
+            <span class="proj-tag">System Monitoring</span>
+          </div>
+          <div class="proj-desc">
+            <ul>
+              <li>Real-time CPU, memory, and disk monitoring</li>
+              <li>Identifies top running processes dynamically</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -446,6 +466,48 @@ function initAnims(){
     draw();
     new ResizeObserver(sz).observe(el);
   })();
+
+  /* 4 — Monitor: terminal style metrics */
+  (function(){
+    const el=document.getElementById('vis-monitor');
+    if(!el) return;
+    const cv=document.createElement('canvas');
+    cv.style.cssText='width:100%;height:100%;display:block;';
+    el.appendChild(cv);
+
+    function sz(){cv.width=el.offsetWidth;cv.height=el.offsetHeight;}
+    sz();
+
+    const ctx=cv.getContext('2d');
+    let t=0;
+
+    function draw(){
+      const W=cv.width,H=cv.height;
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#0a0a0a';
+      ctx.fillRect(0,0,W,H);
+
+      const cpu=(50+Math.sin(t)*30).toFixed(1);
+      const mem=(60+Math.sin(t*0.7)*20).toFixed(1);
+      const disk=(40+Math.sin(t*0.5)*10).toFixed(1);
+
+      ctx.fillStyle='rgba(59,109,17,0.8)';
+      ctx.font='10px ui-monospace,monospace';
+
+      ctx.fillText(`CPU Usage: ${cpu}%`,10,30);
+      ctx.fillText(`Memory: ${mem}%`,10,55);
+      ctx.fillText(`Disk: ${disk}%`,10,80);
+
+      ctx.fillStyle='rgba(200,200,200,0.6)';
+      ctx.fillText('Top Process: python',10,110);
+
+      t+=0.03;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+    new ResizeObserver(sz).observe(el);
+  })();
 }
 
 window.addEventListener('load',()=>setTimeout(initAnims,100));
@@ -483,7 +545,18 @@ const projects={
       'Kubernetes 3-replica ReplicaSet with rolling updates — zero-downtime deployments, 99.9% availability.'
     ],
     anim:'k8s'
-  }
+  },
+  monitor: {
+  title: 'Linux System Monitoring Tool',
+  year: '2026',
+  tags: ['Bash', 'Linux', 'System Monitoring'],
+  bullets: [
+    'Built a lightweight system monitoring tool using Bash to track CPU, memory, and disk usage in real time.',
+    'Integrated native Linux commands (top, free, df, ps) to extract and display system metrics efficiently.',
+    'Designed for quick diagnostics and debugging, helping identify high resource-consuming processes instantly.'
+  ],
+  anim: 'monitor'
+}
 };
 
 let modalAnim=null;
